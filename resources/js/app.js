@@ -44,9 +44,6 @@ import BarangIndex from './components/barang/BarangIndex.vue';
 import BarangCreate from './components/barang/BarangCreate.vue';
 import BarangEdit from './components/barang/BarangEdit.vue';
 
-import HargaBarangCreate from './components/barang/hargabarang/HargaBarangCreate.vue';
-import HargaBarangEdit from './components/barang/hargabarang/HargaBarangEdit.vue';
-
 import TransaksiIndex from './components/transaksi/TransaksiIndex.vue';
 import TransaksiCreate from './components/transaksi/TransaksiCreate.vue';
 
@@ -96,17 +93,6 @@ const routes = [
             name: 'editbarang',
             path: '/barangs/edit/:id',
             component: BarangEdit
-          },
-
-          {
-            name: 'createhargabarang',
-            path: '/hargabarangs/create',
-            component: HargaBarangCreate
-          },
-          {
-            name: 'edithargabarang',
-            path: '/hargabarangs/edit/:id/:nama_barang/:nama_konsumen',
-            component: HargaBarangEdit
           },
           {
             name: 'createtransaksi',

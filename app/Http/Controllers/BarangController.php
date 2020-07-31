@@ -74,14 +74,8 @@ class BarangController extends Controller
 
     }
     
-    public function getBarangAndHarga($id_konsumen){
-        return DB::table('barangs')
-            ->join('harga_barangs', 'barangs.id_barang', '=', 'harga_barangs.id_barang')
-            ->select('barangs.id_barang', 'barangs.nama_barang', 'harga_barangs.harga_satuan', 'harga_barangs.harga_lusin', 'harga_barangs.id_konsumen')
-            ->where('harga_barangs.status','1')
-            ->where('harga_barangs.id_konsumen', $id_konsumen)
-            ->orderBy('barangs.nama_barang')
-            ->get();
+    public function getBarangAndHarga(){
+        return Barang::all();
     }
 
     public function getBarang($id) // for edit and show
@@ -94,33 +88,22 @@ class BarangController extends Controller
     public function getAllBarang(Request $request){
 
         if ( $request->input('showdata') ) {
-    	    return DB::table('barangs')
-            ->join('harga_barangs', 'barangs.id_barang', '=', 'harga_barangs.id_barang')
-            ->join('konsumens', 'harga_barangs.id_konsumen', '=', 'konsumens.id_konsumen')
-            ->select('barangs.id_barang', 'barangs.nama_barang', 'konsumens.nama_konsumen' ,'harga_barangs.harga_satuan', 'harga_barangs.harga_lusin', 'harga_barangs.tgl_awal', 'harga_barangs.no')
-            ->where('harga_barangs.status','1')
-            ->orderBy('barangs.nama_barang')
+    	    return Barang::orderBy('barangs.nama_barang')
             ->get();
             
     	}  
 
-        $columns = ['barangs.id_barang', 'barangs.nama_barang', 'konsumens.nama_konsumen' , 'harga_barangs.harga_satuan', 'harga_barangs.harga_lusin', 'harga_barangs.tgl_awal'];
+        $columns = ['id_barang', 'nama_barang', 'deskripsi_barang' ];
         $length = $request->input('length');
         $column = $request->input('column'); 
         $search_input = $request->input('search');
 
         
-        $query = DB::table('barangs')
-                    ->join('harga_barangs', 'barangs.id_barang', '=', 'harga_barangs.id_barang')
-                    ->join('konsumens', 'harga_barangs.id_konsumen', '=', 'konsumens.id_konsumen')
-                    ->select('barangs.id_barang', 'barangs.nama_barang', 'konsumens.nama_konsumen' ,'harga_barangs.harga_satuan', 'harga_barangs.harga_lusin', 'harga_barangs.tgl_awal', 'harga_barangs.no')
-                    ->where('harga_barangs.status','1')
-                    ->orderBy($columns[$column]);
+        $query = Barang::orderBy($columns[$column]);
 
         if ($search_input) {
             $query->where(function($query) use ($search_input) {
-                $query->where('barangs.nama_barang', 'like', '%' . $search_input . '%')
-                        ->orWhere('konsumens.nama_konsumen', 'like', '%' . $search_input . '%');
+                $query->where('nama_barang', 'like', '%' . $search_input . '%');
             });
         }
         $barang = $query->paginate($length);

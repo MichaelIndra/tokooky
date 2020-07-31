@@ -107,7 +107,7 @@ class CartController extends Controller
     }
 
     private function getAllData(){
-        $this->deleteAll();
+        // $this->deleteAll();
         return DB::table('carts')
             ->join('barangs', 'carts.id_barang', '=', 'barangs.id_barang')
             ->select('barangs.nama_barang', 'carts.qty', 'carts.harga_satuan', 'carts.harga_total', 'carts.id')

@@ -6,7 +6,6 @@
                 <div class='card-header'>Barang</div>
                 <div class='card-body'>
                     <router-link :to="{ name: 'createbarang' }" class="btn btn-primary">Create Master Barang</router-link>
-                    <router-link :to="{ name: 'createhargabarang' }" class="btn btn-primary">Create Harga Barang</router-link>
                     <br/>
                     <br/>
                    <div class="table-style">
@@ -26,7 +25,7 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th width="50" class="text-center">No</th>
+                                    <th width="10" class="text-center">No</th>
                                     <th v-for="column in columns" :key="column.name" @click="sortBy(column.name)"
                                         :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
                                         style="width: 20%; cursor:pointer;">
@@ -37,16 +36,12 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(barang, index) in paginated" :key="barang.id_barang">
-                                    <td width="50" class="text-center">{{ index + 1 }}</td>
+                                    <td width="10" class="text-center">{{ index + 1 }}</td>
                                     <td>{{ barang.nama_barang }}</td>
-                                    <td>{{ barang.nama_konsumen }}</td>
-                                    <td>{{ barang.harga_satuan | currency }}</td>
-                                    <td>{{ barang.harga_lusin | currency }}</td>
-                                    <td>{{ barang.tgl_awal }}</td>
-                                    <td width="250" class="text-center">
+                                    <td>{{ barang.deskripsi_barang }}</td>
+                                    <td width="150" class="text-center">
                                         <div class="btn-group">
                                             <router-link :to="{name: 'editbarang', params: { id: barang.id_barang }}" class="btn btn-success">Edit Barang</router-link>
-                                            <router-link :to="{name: 'edithargabarang', params: { id: barang.no, nama_barang: barang.nama_barang, nama_konsumen:barang.nama_konsumen }}" class="btn btn-success">Edit Harga Barang</router-link>
                                         </div>
                                     </td>
                                 </tr>
@@ -104,10 +99,7 @@
         let sortOrders = {};
         let columns = [
             {label: 'Nama Barang', name: 'nama_barang' },
-            {label: 'Nama Konsumen', name: 'nama_konsumen' },
-            {label: 'Harga Satuan', name: 'harga_satuan'},
-            {label: 'Harga Lusinan', name: 'harga_lusin'},
-            {label: 'Tanggal Awal', name: 'tgl_awal'},
+            {label: 'Deskripsi', name: 'deskripsi_barang' },
         ];
         columns.forEach((column) => {
            sortOrders[column.name] = -1;
@@ -136,33 +128,7 @@
       },
       
     methods: {
-        deletePost(id)
-        {
-            this.$swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "Jika kamu hapus, maka data tidak akan kembali lagi.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Hapus Deh',
-                cancelButtonText: 'Nggak Jadi'
-                }).then((result) => {
-                if (result.value) {
-                    this.$swal.fire({
-                        title: 'Success!',
-                        text: 'Konsumen deleted successfully',
-                        icon: 'success',
-                        timer: 1000
-                    });
-                    let uri = `api/konsumens/delete/${id}`;
-                    this.axios.delete(uri).then(response => {
-                        this.konsumens.splice(this.konsumens.indexOf(id), 1);
-                    });
-                    console.log("Deleted konsumen with id ..." +id);
-                }
-            })
-        },
+        
 
         getBarang(){
             let uri = 'api/barangs/getallbarang';

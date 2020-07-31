@@ -17,7 +17,7 @@
                                 isi sek<br>
                             </p>
                         </td>
-                        <td colspan="2">
+                        <td align="right" colspan="2">
                             <h4>Pelanggan: </h4>
                             <p>{{ glb.nama_konsumen }}<br>
                             {{ glb.alamat_konsumen }}<br>
@@ -44,10 +44,6 @@
                             <th colspan="3">Subtotal</th>
                             <td align="right">{{ glb.total_belanja | currency}}</td>
                         </tr>
-                        <tr>
-                            <th colspan="3">Diskon</th>
-                            <td align="right">- {{glb.diskon | currency}}</td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -64,20 +60,18 @@
         font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         color:#333;
         text-align:left;
-        font-size:18px;
+        font-size:10px;
         margin:0;
     }
    
     #print table{
-        border:1px solid #333;
         border-collapse:collapse;
         margin:0 auto;
-        width:740px;
+        width:700px;
     }
     #print td, tr, th{
-        padding:12px;
-        border:1px solid #333;
-        width:185px;
+        padding:8px;
+        width:120px;
     }
      h4, p{
         margin:0px;
@@ -117,13 +111,14 @@ import html2canvas from "html2canvas"
         },
         download(){
             var htmldt = this.$refs.print
-            var width= htmldt.style.width;
-            var height = htmldt.style.height;
 
             var doc = new jsPDF('l','pt', 'a4');
-            html2canvas(htmldt).then(canvas=>{
-                var image = canvas.toDataURL('image/jpeg', 1.0);
-                doc.addImage(image, 'JPEG', 10, 10, 850, 400);
+            doc.setFontSize(10);
+            html2canvas(htmldt, {
+                scale:6,
+            }).then(canvas=>{
+                var image = canvas.toDataURL('image/jpeg');
+                doc.addImage(image, 'JPEG', 10, 10, 800, 450);
                 doc.save(this.glb.no_invoice)
             })
         },

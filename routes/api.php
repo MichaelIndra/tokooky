@@ -30,7 +30,7 @@ Route::group(['prefix'=>'barangs'], function(){
     Route::post('/store', ['uses'=>'BarangController@store', 'as'=>'barang.store']);
     Route::get('/edit/{id}', ['uses'=>'BarangController@getBarang', 'as'=>'barang.edit']);
     Route::put('/update/{id}', ['uses'=>'BarangController@update', 'as'=>'barang.update']);
-    Route::get('/getbarangandharga/{id_konsumen}', ['uses'=>'BarangController@getBarangAndHarga', 'as'=>'barang.getbarangandharga']);
+    Route::get('/getbarangandharga', ['uses'=>'BarangController@getBarangAndHarga', 'as'=>'barang.getbarangandharga']);
     Route::get('/getallbarang', ['uses'=>'BarangController@getAllBarang', 'as'=>'konsumen.getAllBarang']);
     
 });

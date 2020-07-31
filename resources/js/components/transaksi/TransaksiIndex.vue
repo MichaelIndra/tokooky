@@ -41,7 +41,6 @@
                                     <td>{{ transaksi.no_invoice }}</td>
                                     <td>{{ transaksi.nama_konsumen }}</td>
                                     <td>{{ transaksi.total_belanja | currency }}</td>
-                                    <td>{{ transaksi.diskon | currency }}</td>
                                     <td>{{ transaksi.total_bayar | currency }}</td>
                                     <td>{{ transaksi.total_bersih | currency }}</td>
                                     <td>{{ transaksi.status }}</td>
@@ -112,7 +111,6 @@
             {label: 'No Invoice', name: 'no_invoice' },
             {label: 'Nama Konsumen', name: 'nama_konsumen' },
             {label: 'Total Belanja', name: 'total_belanja'},
-            {label: 'Diskon', name: 'diskon'},
             {label: 'Total Bayar', name: 'total_bersih'},
             {label: 'Pembayaran', name: 'total_bayar'},
             {label: 'Status Pembayaran', name: 'status'},

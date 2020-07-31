@@ -34,22 +34,22 @@
                   label="nama_barang"
                   track-by="nama_barang"
                   placeholder="Ketik nama barang"
+                  @input="clearQtyHarga"
                 ></multiselect>
                 <!-- <pre class="language-json"><code>{{ transaksi  }}</code></pre> -->
               </div>
               <div class="form-group">
                 <label for="title">Harga</label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   v-model="transaksi.harga_satuan"
                   id="harga_satuan"
-                  disabled
                 />
               </div>
               <div class="form-group">
                 <label for="title">qty</label>
-                <input type="text" class="form-control" v-model="qty" id="qty" />
+                <input type="number" class="form-control" v-model="qty" id="qty" />
               </div>
               <div class="form-group">
                 &nbsp;
@@ -113,29 +113,6 @@
           <div class="card-header">Buat Transaksi</div>
           <div class="card-body">
             <form @submit.prevent="makeTransaksi()">
-              <div class="form-group">
-                <label for="title">Diskon</label>
-                <input
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    v-model="make_transaksi.diskon"
-                    id="diskon"
-                    @change="createGrandTotal()"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="title">Grand Total</label>
-                <input
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    v-model="grandtotal"
-                    id="grandtotal"
-                    disabled
-                />
-              </div>
 
               <div class="form-group">
                 <label for="title">Bayar</label>
@@ -197,12 +174,12 @@ export default {
         });
     },
     fetchBarang() {
-      let uri = `/api/barangs/getbarangandharga/${this.kons.id_konsumen}`;
+      let uri = `/api/barangs/getbarangandharga/`;
       console.log("url : " + uri);
+      this.barangs = [];
       axios
         .get(uri)
         .then((response) => {
-          console.log("The data: ", response.data);
           this.barangs = response.data;
         })
         .catch((errors) => {
@@ -210,16 +187,20 @@ export default {
         });
     },
     fetchCart() {
-      let uri = `/api/carts/getall/`;
+      let uri = `/api/carts/deleteall/`;
       axios
         .get(uri)
         .then((response) => {
-          this.carts = response.data.data;
-          this.totalbelanja = response.data.total;
+          // this.carts = response.data.data;
+          // this.totalbelanja = response.data.total;
         })
         .catch((errors) => {
           console.log(errors);
         });
+    },
+    clearQtyHarga(){
+        this.transaksi.harga_satuan = 0;
+        this.qty = 0;
     },
     addCart() {
       this.data.id_konsumen = this.kons.id_konsumen;
@@ -239,6 +220,24 @@ export default {
             if (response.data.success == true) {
               this.carts = response.data.data;
               this.totalbelanja = response.data.total;
+            }else{
+                this.$swal
+                .fire({
+                  title: "Error",
+                  text: response.data.message,
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Update",
+                  cancelButtonText: "Batal",
+                })
+                .then((result) => {
+                  if (result.value) {
+                    this.fetchCart
+                    
+                  }
+                });
             }
           })
           .catch((errors) => {
@@ -250,8 +249,11 @@ export default {
         if (!this.data.id_konsumen) {
             this.errors.push('Nama konsumen wajib diisi !');
         }
-        if (!this.data.id_barangg) {
+        if (!this.data.id_barang) {
             this.errors.push('Nama barang wajib diisi !');
+        }
+        if (!this.data.harga_satuan) {
+            this.errors.push('Harga barang wajib diisi !');
         }
         if (!this.data.qty) {
             this.errors.push('QTY wajib diisi !');
@@ -260,9 +262,7 @@ export default {
 
         e.preventDefault();
     },makeTransaksi(){
-        if(this.make_transaksi.diskon == null){
-            this.make_transaksi.diskon = 0;
-        }
+        this.make_transaksi.diskon = 0;
         if(this.make_transaksi.bayar == null){
             this.make_transaksi.bayar =0;
         }
@@ -271,7 +271,7 @@ export default {
           .post(uri, this.make_transaksi)
           .then((response) => {
             if (response.data.status == true) {
-                this.$router.push({name: 'home'});
+                this.$router.push({name: 'transaksis'});
             }
           })
           .catch((errors) => {
