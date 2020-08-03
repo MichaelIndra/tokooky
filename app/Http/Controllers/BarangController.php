@@ -15,6 +15,7 @@ class BarangController extends Controller
     {
         $validatedData = $request->validate([
           'nama_barang' => 'required',
+          'harga_barang' => 'required',
         ]);
         $prefix = "BRG".date('ym'); 
         $id = IdGenerator::generate(['table' => 'barangs','field'=>'id_barang', 'length' => 15, 'prefix' =>$prefix]);
@@ -22,7 +23,7 @@ class BarangController extends Controller
         $project = Barang::create([
             'id_barang' => $id,    
           'nama_barang' => $validatedData['nama_barang'],
-          'deskripsi_barang' => $request->input('deskripsi_barang'),
+          'harga_barang' => $validatedData['harga_barang'],
           
         ]);
  
@@ -38,11 +39,12 @@ class BarangController extends Controller
     {
         $validatedData = $request->validate([
             'nama_barang' => 'required',
+            'harga_barang' => 'required'
           ]);
  
         $barang = Barang::find($id);
         $barang->nama_barang = $validatedData['nama_barang'];
-        $barang->deskripsi_barang = $request->input('deskripsi_barang');
+        $barang->harga_barang = $validatedData['harga_barang'];
 
         $barang->save();
  
@@ -93,7 +95,7 @@ class BarangController extends Controller
             
     	}  
 
-        $columns = ['id_barang', 'nama_barang', 'deskripsi_barang' ];
+        $columns = ['id_barang', 'nama_barang', 'harga_barang' ];
         $length = $request->input('length');
         $column = $request->input('column'); 
         $search_input = $request->input('search');

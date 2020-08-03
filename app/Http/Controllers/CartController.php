@@ -34,6 +34,7 @@ class CartController extends Controller
                 $savecart ['qty'] = $request->input('qty');
                 $savecart ['harga_satuan'] = $request->input('harga_satuan');
                 $savecart ['harga_total'] = $request->input('qty') * $request->input('harga_satuan');
+                $savecart ['keterangan_qty'] = $request->input('keterangan_qty');
                 Cart::create($savecart);
                 $status = true;
                 $message = 'Berhasil tambah keranjang';
@@ -110,7 +111,8 @@ class CartController extends Controller
         // $this->deleteAll();
         return DB::table('carts')
             ->join('barangs', 'carts.id_barang', '=', 'barangs.id_barang')
-            ->select('barangs.nama_barang', 'carts.qty', 'carts.harga_satuan', 'carts.harga_total', 'carts.id')
+            ->select('barangs.nama_barang', 'carts.qty', 'carts.harga_satuan', 
+                    'carts.harga_total', 'carts.id', 'carts.keterangan_qty')
             ->orderBy('barangs.nama_barang')
             ->get();
     }

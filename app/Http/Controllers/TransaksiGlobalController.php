@@ -11,6 +11,7 @@ use App\TransaksiBayar;
 use App\TransaksiBayarHist;
 use App\Cart;
 use DB;
+use PDF;
 
 class TransaksiGlobalController extends Controller
 {
@@ -50,6 +51,7 @@ class TransaksiGlobalController extends Controller
                 'qty' => $det->qty,
                 'harga'=> $det->harga_satuan, 
                 'total_harga'=> $det->harga_total,
+                'keterangan_qty' => $det->keterangan_qty,
                 "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                 "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
             ]; 
@@ -89,7 +91,7 @@ class TransaksiGlobalController extends Controller
             ->join('konsumens', 'transaksi_globals.id_konsumen', '=', 'konsumens.id_konsumen')
             ->select('transaksi_globals.no_invoice', 'konsumens.nama_konsumen' ,'transaksi_globals.total_belanja', 
                      'transaksi_globals.created_at')
-            ->orderBy('transaksi_globals.created_at')
+            ->orderBy('transaksi_globals.created_at', 'desc')
             ->skip(0)
             ->take(5)
             ->get();
@@ -139,7 +141,7 @@ class TransaksiGlobalController extends Controller
         $query = DB::table('transaksi_details')
                     ->join('barangs', 'transaksi_details.id_barang', '=', 'barangs.id_barang')
                     ->select('barangs.nama_barang', 'transaksi_details.qty' ,'transaksi_details.harga', 
-                            'transaksi_details.total_harga')
+                            'transaksi_details.keterangan_qty','transaksi_details.total_harga')
                     ->where('transaksi_details.no_invoice',$no_invoice)        
                     ->get();
         return response()->json($query);             
@@ -182,19 +184,20 @@ class TransaksiGlobalController extends Controller
                     'transaksi_bayars.total_bayar', 'transaksi_bayars.status', 'transaksi_globals.created_at')
             ->where('transaksi_bayars.no_invoice',$no_invoice)
             ->orderBy('transaksi_globals.created_at')
-            ->get();
+            ->first();
         $datadet = DB::table('transaksi_details')
                 ->join('barangs', 'transaksi_details.id_barang', '=', 'barangs.id_barang')
                 ->select('barangs.nama_barang', 'transaksi_details.qty' ,'transaksi_details.harga', 
-                        'transaksi_details.total_harga')
+                        'transaksi_details.total_harga', 'transaksi_details.keterangan_qty')
                 ->where('transaksi_details.no_invoice',$no_invoice)
             ->get();    
 
         $msg=[
             'glb' => $dataglb,
             'det' => $datadet
-        ];    
-        return response()->json($msg); 
+        ];
+        $pdf = PDF::loadview('printinvoice',['glb'=>$dataglb, 'det'=>$datadet])->setPaper('a4', 'landscape');
+        return $pdf->download($no_invoice.'.pdf');
     }
     
 }

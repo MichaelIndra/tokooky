@@ -18,8 +18,8 @@
                                 <input type="text" class="form-control" id="nama_barang" v-model="barang.nama_barang">
                             </div>
                             <div class='form-group'>
-                                <label htmlFor='content'>Deskripsi Barang</label>
-                                <textarea type="text" class="form-control" id="deskripsi_barang" v-model="barang.deskripsi_barang" rows="3"></textarea>
+                                <label htmlFor='content'>Harga Barang</label>
+                                <input type="number" class="form-control" id="harga_barang" v-model="barang.harga_barang" />
                             </div>
                             <div class='form-group'>
                                 <router-link :to="{ name: 'barangs' }" class="btn btn-secondary">Back</router-link>
@@ -41,13 +41,14 @@
                 barang:{},
                 errors: [],
                 nama_barang: null,
-                deskripsi_barang: null,
+                harga_barang: null,
             }
         },
         methods: {
             createBarang(e){
                  
-                if (this.$data.barang.nama_barang != null) {
+                if (this.$data.barang.nama_barang != null &&
+                    this.$data.barang.harga_barang != null) {
                     this.$swal.fire({
                         title: 'Success',
                         text: "Master barang created successfully",
@@ -65,6 +66,9 @@
  
                 if (!this.nama_barang) {
                     this.errors.push('Nama barang wajib diisi !');
+                }
+                if (!this.harga_barang) {
+                    this.errors.push('Harga barang wajib diisi !');
                 }
             
                 e.preventDefault();

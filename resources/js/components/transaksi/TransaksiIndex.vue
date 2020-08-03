@@ -52,7 +52,7 @@
                                         </div>
                                     </td>
                                     <td width="150" class="text-center">
-                                        <router-link :to="{name: 'invoiceprint', params: { no_invoice: transaksi.no_invoice }}" class="btn btn-success">Print</router-link>
+                                        <button class="btn btn-success" @click="printInvoice(transaksi.no_invoice)">Print</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -143,7 +143,24 @@
       },
       
     methods: {
-        
+        printInvoice(no_invoice){
+            let uri = '/api/transaksiglobals/printinvoice/'+no_invoice;
+            axios.get(uri).then(response=>{
+                // let blob = new Blob([response], {type: 'arraybuffer'});
+                // let link = document.createElement('a');
+                // let objectURL = window.URL.createObjectURL(blob);
+                // link.href = objectURL;
+                // link.target = '_self';
+                // link.download = "fileName.pdf";
+                // (document.body || document.documentElement).appendChild(link);
+                // link.click();
+                // setTimeout(()=>{
+                //     window.URL.revokeObjectURL(objectURL);
+                //     link.remove();
+                // }, 100);
+            })
+            window.open(uri);
+        },
 
         getData(){
             let uri = 'api/transaksiglobals/getalltransaksi';
@@ -189,6 +206,7 @@
                                     <tr>
                                         <th>Nama Barang</th>
                                         <th>Qty</th>
+                                        <th>Keterangan Qty</th>
                                         <th>Harga Satuan</th>
                                         <th>Harga Total</th>
                                     </tr>
@@ -198,6 +216,7 @@
                     htmldata += `<tr>
                                     <td>`+item.nama_barang+`</td>
                                     <td>`+item.qty+`</td>
+                                    <td>`+item.keterangan_qty+`</td>
                                     <td>`+item.harga+`</td>
                                     <td>`+item.total_harga+`</td>
                                 </tr>`

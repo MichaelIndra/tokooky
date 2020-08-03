@@ -38,7 +38,7 @@
                                 <tr v-for="(barang, index) in paginated" :key="barang.id_barang">
                                     <td width="10" class="text-center">{{ index + 1 }}</td>
                                     <td>{{ barang.nama_barang }}</td>
-                                    <td>{{ barang.deskripsi_barang }}</td>
+                                    <td>{{ barang.harga_barang }}</td>
                                     <td width="150" class="text-center">
                                         <div class="btn-group">
                                             <router-link :to="{name: 'editbarang', params: { id: barang.id_barang }}" class="btn btn-success">Edit Barang</router-link>
@@ -99,7 +99,7 @@
         let sortOrders = {};
         let columns = [
             {label: 'Nama Barang', name: 'nama_barang' },
-            {label: 'Deskripsi', name: 'deskripsi_barang' },
+            {label: 'Harga Barang', name: 'harga_barang' },
         ];
         columns.forEach((column) => {
            sortOrders[column.name] = -1;

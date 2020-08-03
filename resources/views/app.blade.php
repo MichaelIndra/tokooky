@@ -46,7 +46,9 @@
           
         </div>
         <div class="info">
-          <a href="#" class="d-block">Toko Oky</a>
+          <router-link to="/" class="nav-link d-block">
+            Toko Oky
+          </router-link>
         </div>
       </div>
  

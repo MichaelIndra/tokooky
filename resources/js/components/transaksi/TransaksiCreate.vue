@@ -43,13 +43,21 @@
                 <input
                   type="number"
                   class="form-control"
-                  v-model="transaksi.harga_satuan"
-                  id="harga_satuan"
+                  v-model="transaksi.harga_barang"
+                  id="harga_barang"
                 />
               </div>
               <div class="form-group">
                 <label for="title">qty</label>
                 <input type="number" class="form-control" v-model="qty" id="qty" />
+              </div>
+              <div class="form-group">
+                <label for="title">Keterangan QTY</label>
+                <select v-model="data.keterangan_qty" class="form-control">
+                  <option v-for="option in keterangan_qty" v-bind:value="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
               </div>
               <div class="form-group">
                 &nbsp;
@@ -71,6 +79,7 @@
                     <th>No</th>
                     <th>Barang</th>
                     <th>Qty</th>
+                    <th>Keterangan</th>
                     <th>Harga Satuan</th>
                     <th>Total</th>
                     <th>Aksi</th>
@@ -89,6 +98,7 @@
                         style="width: 70px;"
                       />
                     </td>
+                    <td>{{datacart.keterangan_qty}}</td>
                     <td>{{datacart.harga_satuan}}</td>
                     <td>{{datacart.harga_total}}</td>
                     <td width="200" class="text-center">
@@ -153,6 +163,12 @@ export default {
       totalbelanja: 0,
       grandtotal : 0,
       make_transaksi : {},
+      keterangan_qty : [
+        {text : 'PCS', value : 'PCS'},
+        {text : 'PAK', value : 'PAK'},
+        {text : 'DOS', value : 'DOS'},
+        {text : 'KRT', value : 'KRT'},
+      ],
       
     };
   },
@@ -199,18 +215,19 @@ export default {
         });
     },
     clearQtyHarga(){
-        this.transaksi.harga_satuan = 0;
         this.qty = 0;
+        
     },
     addCart() {
       this.data.id_konsumen = this.kons.id_konsumen;
       this.data.id_barang = this.transaksi.id_barang;
-      this.data.harga_satuan = this.transaksi.harga_satuan;
+      this.data.harga_satuan = this.transaksi.harga_barang;
       this.data.qty = this.qty;
       if (
         this.data.id_konsumen != null &&
         this.data.id_barang != null &&
-        this.data.qty != null
+        this.data.qty != null &&
+        this.data.keterangan_qty != null
       ) {
         let uri = `/api/carts/store/`;
         axios
@@ -258,6 +275,9 @@ export default {
         if (!this.data.qty) {
             this.errors.push('QTY wajib diisi !');
         }
+        if (!this.data.keterangan_qty) {
+            this.errors.push('Keterangan QTY wajib diisi !');
+        }
         
 
         e.preventDefault();
@@ -296,7 +316,6 @@ export default {
       }
     },
     updateQty(data) {
-      console.log(data);
       this.$swal
         .fire({
           title: "Apakah kamu yakin?",
@@ -309,18 +328,27 @@ export default {
           cancelButtonText: "Batal",
         })
         .then((result) => {
+
           if (result.value) {
-            this.$swal.fire({
-              title: "Success!",
-              text: "Cart Update successfully",
-              icon: "success",
-              timer: 1000,
-            });
-            let uri = `api/carts/update/${data.id}/${data.qty}`;
+            
+            let uri = `/api/carts/update/${data.id}/${data.qty}`;
             this.axios.put(uri).then((response) => {
               if (response.data.success == true) {
                 this.carts = response.data.data;
                 this.totalbelanja = response.data.total;
+                this.$swal.fire({
+                  title: "Success!",
+                  text: response.data.message,
+                  icon: "success",
+                  timer: 1000,
+                });
+              }else{
+                this.$swal.fire({
+                  title: "Failed",
+                  text: response.data.message,
+                  icon: "success",
+                  timer: 1000,
+                });
               }
             });
           }

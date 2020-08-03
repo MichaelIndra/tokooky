@@ -2,79 +2,161 @@
 <div>
     <button @click="download()">Download Invoice</button>
         <div id="print" ref="print">
-            
-            <table class="table">
-                <thead>
+
+            <header class="clearfix">
+                <h1>{{ glb.no_invoice }}</h1>
+                <div id="company" class="clearfix">
+                    <div>Toko Oky</div>
+                    <div>455 Foggy Heights,<br /> AZ 85004, US</div>
+                    <div>(602) 519-0450</div>
+                </div>
+                <div id="project">
+                    <div><span>Pelanggan</span> {{ glb.nama_konsumen }}</div>
+                    <div><span>Alamat</span> {{ glb.alamat_konsumen }} </div>
+                    <div><span>Telp</span> {{ glb.no_telp }} </div>
+                </div>
+            </header>
+
+            <main>
+                <table>
+                    <thead>
                     <tr>
-                        <th colspan="3">Invoice : <strong>{{ glb.no_invoice }}</strong></th>
-                        <th>{{ glb.created_at }}</th>
+                        <th>no</th>
+                        <th class="service">Barang</th>
+                        <th>Harga</th>
+                        <th>QTY</th>
+                        <th>TOTAL</th>
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <h4>Toko OKY </h4>
-                            <p> Alamat lu <br> 
-                                no telp<br>
-                                isi sek<br>
-                            </p>
-                        </td>
-                        <td align="right" colspan="2">
-                            <h4>Pelanggan: </h4>
-                            <p>{{ glb.nama_konsumen }}<br>
-                            {{ glb.alamat_konsumen }}<br>
-                            {{ glb.no_telp }} <br>
-                            
-                            </p>
-                        </td>
-                    </tr>
-                </thead>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Produk</th>
-                            <th>Harga</th>
-                            <th>Qty</th>
-                            <th>Subtotal</th>
-                        </tr>
-                        <tr v-for="(dta) in det" :key="dta.nama_barang">
-                            <td>{{ dta.nama_barang }}</td>
-                            <td align="right">{{ dta.harga | currency}}</td>
-                            <td>{{ dta.qty }}</td>
-                            <td align="right">{{ dta.total_harga | currency}}</td>
-                        </tr>
-                        <tr>
-                            <th colspan="3">Subtotal</th>
-                            <td align="right">{{ glb.total_belanja | currency}}</td>
-                        </tr>
+                    <tr v-for="(dta, index) in det" :key="dta.nama_barang">
+                        <td>{{index + 1}}</td>
+                        <td class="service">{{ dta.nama_barang }}</td>
+                        <td class="unit">{{ dta.harga | currency}}</td>
+                        <td class="qty">{{ dta.qty }} {{ dta.keterangan_qty }}</td>
+                        <td class="total">{{ dta.total_harga | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total">{{ glb.total_belanja | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="grand total">GRAND TOTAL</td>
+                        <td class="grand total">{{ glb.total_bersih | currency}}</td>
+                    </tr>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="3">Total</th>
-                            <td align="right">{{ glb.total_bersih | currency}}</td>
-                        </tr>
-                    </tfoot>
                 </table>
-    </div>
+            </main>
+        </div>
+        <div id="elementH"></div>
 </div>
 </template>
 <style>
-    #print{
-        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color:#333;
-        text-align:left;
-        font-size:10px;
-        margin:0;
+    .clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
     }
-   
-    #print table{
-        border-collapse:collapse;
-        margin:0 auto;
-        width:700px;
+
+    #print {
+    position: relative;
+    width: 21cm;  
+    height: 29.7cm; 
+    margin: 0 auto; 
+    color: #001028;
+    background: #FFFFFF; 
+    font-family: Arial, sans-serif; 
+    font-size: 10px; 
+    font-family: Arial;
     }
-    #print td, tr, th{
-        padding:8px;
-        width:120px;
+
+    #print header {
+    padding: 10px 0;
+    margin-bottom: 30px;
     }
-     h4, p{
-        margin:0px;
+
+
+    #print h1 {
+    border-top: 1px solid  #5D6975;
+    border-bottom: 1px solid  #5D6975;
+    color: #5D6975;
+    font-size: 2.4em;
+    line-height: 1.4em;
+    font-weight: normal;
+    text-align: center;
+    margin: 0 0 20px 0;
+    }
+
+    #project {
+    float: left;
+    }
+
+    #project span {
+    color: #5D6975;
+    text-align: right;
+    width: 52px;
+    margin-right: 10px;
+    display: inline-block;
+    font-size: 0.8em;
+    }
+
+    #company {
+    float: right;
+    text-align: right;
+    margin-right: 10px;
+    }
+
+    #project div,
+    #company div {
+    white-space: nowrap;        
+    }
+
+    #print table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 10px;
+    }
+
+    #print table tr:nth-child(2n-1) td {
+    background: #F5F5F5;
+    }
+
+    #print table th,
+    #print table td {
+    text-align: center;
+    }
+
+    #print table th {
+    padding: 5px 10px;
+    color: #5D6975;
+    border-bottom: 1px solid #C1CED9;
+    white-space: nowrap;        
+    font-weight: normal;
+    }
+
+    #print table .service,
+    #print table .desc {
+    text-align: left;
+    }
+
+    #print table td {
+    padding: 15px;
+    text-align: right;
+    }
+
+    #print table td.service {
+    vertical-align: top;
+    }
+
+    #print table td.unit,
+    #print table td.qty,
+    #print table td.total {
+    font-size: 1.2em;
+    }
+
+    #print table td.grand {
+    border-top: 1px solid #5D6975;;
     }
 </style>
 
@@ -111,16 +193,27 @@ import html2canvas from "html2canvas"
         },
         download(){
             var htmldt = this.$refs.print
-
+            // var dt = $('#print').html();
+            // var specialElementHandlers = {
+            //     '#elementH': function (element, renderer) {
+            //         return true;
+            //     }
+            // };
             var doc = new jsPDF('l','pt', 'a4');
             doc.setFontSize(10);
             html2canvas(htmldt, {
                 scale:6,
             }).then(canvas=>{
                 var image = canvas.toDataURL('image/jpeg');
-                doc.addImage(image, 'JPEG', 10, 10, 800, 450);
+                doc.addImage(image, 'JPEG', 10, 10, 800, 650);
                 doc.save(this.glb.no_invoice)
             })
+
+            // doc.fromHTML(dt, 15, 15, {
+            //     'width': 170,
+            //     'elementHandlers': specialElementHandlers
+            // });
+            // doc.save(this.glb.no_invoice)
         },
     }
   }
