@@ -1,2 +1,2 @@
-php artisan serve
-php -S localhost:8000 -t public/
+start c:\xampp\mysql\bin\mysqld
+start php artisan serve
