@@ -6,6 +6,7 @@
                 <div class='card-header'>Transaksi</div>
                 <div class='card-body'>
                     <router-link :to="{ name: 'createtransaksi' }" class="btn btn-primary">Buat Transaksi</router-link>
+                    <router-link :to="{ name: 'keteranganqty' }" class="btn btn-primary">Tambah Keterangan QTY</router-link>
                     <br/>
                     <br/>
                    <div class="table-style">
@@ -145,21 +146,10 @@
     methods: {
         printInvoice(no_invoice){
             let uri = '/api/transaksiglobals/printinvoice/'+no_invoice;
-            axios.get(uri).then(response=>{
-                // let blob = new Blob([response], {type: 'arraybuffer'});
-                // let link = document.createElement('a');
-                // let objectURL = window.URL.createObjectURL(blob);
-                // link.href = objectURL;
-                // link.target = '_self';
-                // link.download = "fileName.pdf";
-                // (document.body || document.documentElement).appendChild(link);
-                // link.click();
-                // setTimeout(()=>{
-                //     window.URL.revokeObjectURL(objectURL);
-                //     link.remove();
-                // }, 100);
-            })
-            window.open(uri);
+            let urites = 'localhost:8000/api/transaksiglobals/printinvoice/'+no_invoice;
+            // axios.get(uri).then(response=>{
+            // })
+            window.open(urites);
         },
 
         getData(){

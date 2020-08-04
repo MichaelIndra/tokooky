@@ -49,6 +49,8 @@ import TransaksiCreate from './components/transaksi/TransaksiCreate.vue';
 
 import InvoicePrint from './components/invoice/InvoiceCreate.vue';
 
+import KeteranganQty from './components/transaksi/KeteranganQty/KeteranganQtyCreate.vue';
+
 
 
 const routes = [
@@ -103,6 +105,11 @@ const routes = [
             name: 'invoiceprint',
             path: '/:no_invoice',
             component: InvoicePrint
+          },
+          {
+            name: 'keteranganqty',
+            path: '/keteranganqty/create',
+            component: KeteranganQty
           },
       
     

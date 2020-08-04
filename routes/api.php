@@ -58,3 +58,9 @@ Route::group(['prefix'=>'transaksiglobals'], function(){
     Route::get('/bayarinvoice/{no_invoice}/{totalbayar}', ['uses'=>'TransaksiGlobalController@bayarInvoice', 'as'=>'transaksiglobal.bayarinvoice']);
     Route::get('/printinvoice/{no_invoice}', ['uses'=>'TransaksiGlobalController@printInvoice', 'as'=>'transaksiglobal.printinvoice']);
 });
+
+Route::group(['prefix'=>'keteranganqtys'], function(){
+    Route::post('/store', ['uses'=>'KeteranganQtyController@store', 'as'=>'keteranganqty.store']);
+    Route::get('/getall', ['uses'=>'KeteranganQtyController@getAll', 'as'=>'keteranganqty.getall']);
+    
+});

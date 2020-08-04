@@ -196,8 +196,9 @@ class TransaksiGlobalController extends Controller
             'glb' => $dataglb,
             'det' => $datadet
         ];
-        $pdf = PDF::loadview('printinvoice',['glb'=>$dataglb, 'det'=>$datadet])->setPaper('a4', 'landscape');
-        return $pdf->download($no_invoice.'.pdf');
+        $pdf = PDF::loadview('printinvoice',['glb'=>$dataglb, 'det'=>$datadet])->setPaper('letter', 'portrait');
+        // return $pdf->download($no_invoice.'.pdf');
+        return $pdf->stream();
     }
     
 }

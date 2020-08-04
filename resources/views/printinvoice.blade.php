@@ -13,19 +13,20 @@
 
     body {
     position: relative;
-    width: 21cm;  
-    height: 29.7cm; 
-    margin: 0 auto; 
+    width: 24.13cm;  /* 9.5 inch = 24.13 panjang */
+    height: 27.94cm; /* 11 inch = 27.94 lebar */
+    margin-top: 20px; 
+    padding :0 ;
     color: #001028;
-    background: #FFFFFF; 
-    font-family: Arial, sans-serif; 
-    font-size: 10px; 
-    font-family: Arial;
+    background: #FFFFFF;  
+    font-size: 12px; 
+    font-family:"Times New Roman";
     }
 
     header {
-    padding: 10px 0;
-    margin-bottom: 5px;
+    padding: 0px 0px;
+    margin-bottom: 0px;
+    display:inline-block;
     }
 
     #project {
@@ -33,9 +34,10 @@
     }
 
     #company {
-        float: right;
-        width: 40%;
-        height: 60px;
+        float: left;
+        
+        width: 10%;
+        margin-left :67%;
         text-align: right;
     }
 
@@ -45,10 +47,10 @@
     }
 
     table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     border-spacing: 0;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     }
 
 
@@ -58,7 +60,7 @@
     }
 
     table th {
-    padding: 5px 10px;
+    padding: 5px 5px;
     color: #5D6975;
     border-bottom: 1px solid #5D6975;
     white-space: nowrap;        
@@ -72,7 +74,7 @@
     }
 
     table td {
-    padding: 10px;
+    padding: 3px;
     text-align: right;
     }
 
@@ -83,61 +85,63 @@
     table td.unit,
     table td.qty,
     table td.total {
-    font-size: 1.2em;
+    font-size: 1.0em;
     }
 
     table td.grand {
     border-top: 1px solid #5D6975;;
     }
 </style>
-    <header class="clearfix">
-        
-        <div id="company" class="clearfix">
-            <div>Toko Oky</div>
-            <div>455 Foggy Heights,<br /> AZ 85004, US</div>
-            <div>(602) 519-0450</div>
-        </div>
-        <div id="project">
-            <div> {{ $glb->nama_konsumen }}</div>
-            <div> {{ $glb->alamat_konsumen }} </div>
-            <div> {{ $glb->no_telp }} </div>
-        </div>
-    </header>
+    <div id="print">
+        <header class="clearfix">
+        <div id="project" >
+                <div> {{ $glb->nama_konsumen }}</div>
+                <div> {{ $glb->alamat_konsumen }} </div>
+                <div> {{ $glb->no_telp }} </div>
+            </div>
+            <div id="company">
+                <div>Toko Oky</div>
+                <div>Jl. Kusuma Bangsa no 74,<br /> Wirosari</div>
+                <div>0822 2667 0094</div>
+            </div>
+            
+        </header>
 
-    <main>
-        Invoice : {{ $glb->no_invoice }}
-        <table>
-            <thead>
-            <tr>
-                <th class="no">No</th>
-                <th class="service">Barang</th>
-                <th>Harga</th>
-                <th>QTY</th>
-                <th>TOTAL</th>
-            </tr>
-            </thead>
-            <tbody>
-            @php $i=1 @endphp
-            @foreach($det as $dta)
-            <tr>
-                <td class="no">{{$i}}</td>
-                <td class="service">{{ $dta->nama_barang }}</td>
-                <td class="unit">{{ number_format($dta->harga, 2, ',', '.')}}</td>
-                <td class="qty">{{ $dta->qty }} {{ $dta->keterangan_qty }}</td>
-                <td class="total">{{ number_format($dta->total_harga, 2, ',', '.')  }}</td>
-            </tr>
-            @php $i++ @endphp
-            @endforeach
-            <tr>
-                <td colspan="4">SUBTOTAL</td>
-                <td class="total">{{ number_format($glb->total_belanja, 2, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="grand total">GRAND TOTAL</td>
-                <td class="grand total">Rp. {{ number_format($glb->total_bersih, 2, ',', '.') }}</td>
-            </tr>
-            </tbody>
-        </table>
-    </main>
+        <main>
+            Invoice : {{ $glb->no_invoice }}
+            <table>
+                <thead>
+                <tr>
+                    <th class="no">No</th>
+                    <th class="service">Barang</th>
+                    <th>Harga</th>
+                    <th>QTY</th>
+                    <th>TOTAL</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php $i=1 @endphp
+                @foreach($det as $dta)
+                <tr height="1px" cellspacing="0">
+                    <td class="no">{{$i}}</td>
+                    <td class="service">{{ $dta->nama_barang }}</td>
+                    <td class="unit">{{ number_format($dta->harga, 2, ',', '.')}}</td>
+                    <td class="qty">{{ $dta->qty }} {{ $dta->keterangan_qty }}</td>
+                    <td class="total">{{ number_format($dta->total_harga, 2, ',', '.')  }}</td>
+                </tr>
+                @php $i++ @endphp
+                @endforeach
+                <tr>
+                    <td colspan="4">SUBTOTAL</td>
+                    <td class="total">{{ number_format($glb->total_belanja, 2, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="grand total">GRAND TOTAL</td>
+                    <td class="grand total">Rp. {{ number_format($glb->total_bersih, 2, ',', '.') }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>    
   </body>
 </html>

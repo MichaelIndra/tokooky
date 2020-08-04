@@ -49,13 +49,14 @@
               </div>
               <div class="form-group">
                 <label for="title">qty</label>
-                <input type="number" class="form-control" v-model="qty" id="qty" />
+                <input type="number" class="form-control" v-model="qty" id="qty" step="0.01" />
               </div>
               <div class="form-group">
                 <label for="title">Keterangan QTY</label>
+                
                 <select v-model="data.keterangan_qty" class="form-control">
-                  <option v-for="option in keterangan_qty" v-bind:value="option.value">
-                    {{ option.text }}
+                  <option v-for="option in keterangan_qtys" :value="option.keterangan_qty" :key ="option.keterangan_qty">
+                    {{ option.keterangan_qty }}
                   </option>
                 </select>
               </div>
@@ -96,6 +97,7 @@
                         class="form-control"
                         v-model="datacart.qty"
                         style="width: 70px;"
+                        step="0.01"
                       />
                     </td>
                     <td>{{datacart.keterangan_qty}}</td>
@@ -115,8 +117,6 @@
         </div>
       </div>
     </div>
-    </br>
-    </br>
     <div class="row ">
       <div class="col-md-4">
         <div class="card">
@@ -163,18 +163,14 @@ export default {
       totalbelanja: 0,
       grandtotal : 0,
       make_transaksi : {},
-      keterangan_qty : [
-        {text : 'PCS', value : 'PCS'},
-        {text : 'PAK', value : 'PAK'},
-        {text : 'DOS', value : 'DOS'},
-        {text : 'KRT', value : 'KRT'},
-      ],
+      keterangan_qtys : [],
       
     };
   },
   created() {
     this.fetchKonsumen();
     this.fetchCart();
+    this.fetchKeteranganQty();
   },
   methods: {
     fetchKonsumen() {
@@ -209,6 +205,18 @@ export default {
         .then((response) => {
           // this.carts = response.data.data;
           // this.totalbelanja = response.data.total;
+        })
+        .catch((errors) => {
+          console.log(errors);
+        });
+    },
+    fetchKeteranganQty() {
+      let uri = `/api/keteranganqtys/getall/`;
+      axios
+        .get(uri)
+        .then((response) => {
+          this.keterangan_qtys = response.data;
+          
         })
         .catch((errors) => {
           console.log(errors);
