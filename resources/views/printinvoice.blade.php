@@ -37,7 +37,7 @@
         float: left;
         
         width: 10%;
-        margin-left :65%;
+        margin-left :60%;
         text-align: right;
     }
 
