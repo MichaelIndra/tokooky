@@ -19,7 +19,7 @@
     padding :0 ;
     color: #001028;
     background: #FFFFFF;  
-    font-size: 13px; 
+    font-size: 12px; 
     font-family:"Times New Roman";
     }
 
@@ -61,7 +61,7 @@
 
     table th {
     padding: 5px 5px;
-    
+    color: #5D6975;
     border-bottom: 1px solid #5D6975;
     white-space: nowrap;        
     font-weight: normal;
@@ -131,10 +131,6 @@
                 </tr>
                 @php $i++ @endphp
                 @endforeach
-                <tr>
-                    <td colspan="4">SUBTOTAL</td>
-                    <td class="total">{{ number_format($glb->total_belanja, 2, ',', '.') }}</td>
-                </tr>
                 <tr>
                     <td colspan="4" class="grand total">GRAND TOTAL</td>
                     <td class="grand total">Rp. {{ number_format($glb->total_bersih, 2, ',', '.') }}</td>
