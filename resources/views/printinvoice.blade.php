@@ -19,7 +19,7 @@
     padding :0 ;
     color: #001028;
     background: #FFFFFF;  
-    font-size: 12px; 
+    font-size: 13px; 
     font-family:"Times New Roman";
     }
 
@@ -37,7 +37,7 @@
         float: left;
         
         width: 10%;
-        margin-left :67%;
+        margin-left :65%;
         text-align: right;
     }
 
@@ -61,7 +61,7 @@
 
     table th {
     padding: 5px 5px;
-    color: #5D6975;
+    
     border-bottom: 1px solid #5D6975;
     white-space: nowrap;        
     font-weight: normal;

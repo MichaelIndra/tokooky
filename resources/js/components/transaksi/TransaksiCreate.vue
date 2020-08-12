@@ -382,7 +382,7 @@ export default {
               icon: "success",
               timer: 1000,
             });
-            let uri = `api/carts/delete/${id}`;
+            let uri = `/api/carts/delete/${id}`;
             this.axios.delete(uri).then((response) => {
               if (response.data.success == true) {
                 this.carts = response.data.data;
