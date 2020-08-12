@@ -15,7 +15,7 @@
     position: relative;
     width: 24.13cm;  /* 9.5 inch = 24.13 panjang */
     height: 27.94cm; /* 11 inch = 27.94 lebar */
-    margin-top: 20px; 
+    margin-top: 0px; 
     padding :0 ;
     color: #001028;
     background: #FFFFFF;  
