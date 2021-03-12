@@ -27,7 +27,7 @@
         "@fortawesome/fontawesome-free": "^5.14.0",
         "admin-lte": "^3.0.5",
         "html2canvas": "^1.0.0-rc.5",
-        "jspdf": "^1.5.3",
+        "jspdf": "^2.3.1",
         "moment": "^2.27.0",
         "vue-axios": "^2.1.5",
         "vue-clickaway": "^2.2.2",
